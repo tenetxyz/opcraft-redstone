@@ -46,8 +46,6 @@ contract AndTestSystem is System {
     uint256 in2VoxelId = in2VoxelIds[0];
     uint256 outVoxelId = outVoxelIds[0];
 
-    // it's fine if we set the signalSource of the voxel directly cause other tests will do the same
-    // the test is to see if 1 + 1 = 0 and carryOut = 1
     signalSourceComponent.set(in1VoxelId);
     signalSourceComponent.set(in2VoxelId);
     if (signalComponent.getValue(outVoxelId).isActive) {

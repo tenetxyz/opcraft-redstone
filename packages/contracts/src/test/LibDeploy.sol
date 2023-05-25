@@ -257,6 +257,8 @@ library LibDeploy {
     world.registerSystem(address(system), BuildSystemID);
     authorizeWriter(components, PositionComponentID, address(system));
     authorizeWriter(components, OwnedByComponentID, address(system));
+    authorizeWriter(components, ItemComponentID, address(system));
+    authorizeWriter(components, TypeComponentID, address(system));
     console.log(address(system));
 
     console.log("Deploying CreativeBuildSystem");
