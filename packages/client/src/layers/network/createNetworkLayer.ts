@@ -36,6 +36,7 @@ import {
   definePluginComponent,
   definePluginRegistryComponent,
   defineVoxelRulesComponent,
+  defineEntityIdComponent,
 } from "./components";
 import {
   getBlockAtPosition as getBlockAtPositionApi,
@@ -87,6 +88,7 @@ export async function createNetworkLayer(config: GameConfig) {
     VoxelRules: createLocalCache(defineVoxelRulesComponent(world), uniqueWorldId),
     Signal: defineSignalComponent(world),
     SignalSource: defineSignalSourceComponent(world),
+    EntityId: defineEntityIdComponent(world),
   };
 
   // --- SETUP ----------------------------------------------------------------------

@@ -3,19 +3,30 @@ import styled from "styled-components";
 import { Button, CloseableContainer, Gold } from "./common";
 import {Layers} from "../../../types";
 import {VoxelCoord} from "@latticexyz/utils";
-import {getComponentValue} from "@latticexyz/recs";
+import {defineRxSystem, getComponentValue} from "@latticexyz/recs";
 import {toast} from "react-toastify";
+import {distinct} from "rxjs";
 
-export const RegisterCreation: React.FC<{ onClose: () => void; layers: Layers}> = ({ onClose, layers }) => {
+export const SubmitHalfAdderTest: React.FC<{ onClose: () => void; layers: Layers}> = ({ onClose, layers }) => {
 	const {
 		network: {
 			api,
+			components: {EntityId}, // so far only creations set this entityid field rn
 		},
 		noa: {
+			world,
 			components: { VoxelSelection },
 			SingletonEntity,
 		},
 	} = layers;
+
+	const [creationIds, setCreationIds] = React.useState<number[]>();
+	React.useEffect(() => {
+		setCreationIds(Array.from(EntityId.values.value.values()).map(id => parseInt(id)));
+		defineRxSystem(world, EntityId.update$.pipe(distinct()), (update) => {
+				setCreationIds(Array.from(EntityId.values.value.values()).map(id => parseInt(id)));
+		});
+	}, []);
 
 	const submit = (creationId: number) => {
 		let points: VoxelCoord[] = getComponentValue(VoxelSelection, SingletonEntity)?.points ?? [];
@@ -32,11 +43,17 @@ export const RegisterCreation: React.FC<{ onClose: () => void; layers: Layers}> 
 	return (
 		<ImportContainer onClose={onClose}>
 			<p>
-				<Gold>Submit Adder Test</Gold>
+				<Gold>Submit Half Adder Test</Gold>
 			</p>
-			<Buttons>
-				<Button onClick={submit}>Submit</Button>
-			</Buttons>
+				<Buttons>
+			{
+				creationIds?.map((id) => {
+					return (
+							<Button key={`creation-id-${id}`} onClick={() => submit(id)}>Submit 0x{id.toString(16).slice(0,7)}...</Button>
+					)
+				})
+			}
+				</Buttons>
 		</ImportContainer>
 	);
 };
