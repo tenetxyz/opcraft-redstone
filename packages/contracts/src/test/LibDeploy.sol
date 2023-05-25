@@ -60,6 +60,8 @@ import { RegisterCreationSystem, ID as RegisterCreationSystemID } from "systems/
 import { SignalSystem, ID as SignalSystemID } from "systems/SignalSystem.sol";
 import { SignalSourceSystem, ID as SignalSourceSystemID } from "systems/SignalSourceSystem.sol";
 import { AdderTestSystem, ID as AdderTestSystemID } from "systems/AdderTestSystem.sol";
+import { HalfAdderTestSystem, ID as HalfAdderTestSystemID } from "systems/HalfAdderTestSystem.sol";
+import { AndTestSystem, ID as AndTestSystemID } from "systems/AndTestSystem.sol";
 
 struct DeployResult {
   IWorld world;
@@ -384,6 +386,20 @@ library LibDeploy {
     console.log("Deploying AdderTestSystem");
     system = new AdderTestSystem(world, address(components));
     world.registerSystem(address(system), AdderTestSystemID);
+    authorizeWriter(components, SignalSourceComponentID, address(system));
+    authorizeWriter(components, PassesTestsComponentID, address(system));
+    console.log(address(system));
+
+    console.log("Deploying HalfAdderTestSystem");
+    system = new HalfAdderTestSystem(world, address(components));
+    world.registerSystem(address(system), HalfAdderTestSystemID);
+    authorizeWriter(components, SignalSourceComponentID, address(system));
+    authorizeWriter(components, PassesTestsComponentID, address(system));
+    console.log(address(system));
+
+    console.log("Deploying AndTestSystem");
+    system = new AndTestSystem(world, address(components));
+    world.registerSystem(address(system), AndTestSystemID);
     authorizeWriter(components, SignalSourceComponentID, address(system));
     authorizeWriter(components, PassesTestsComponentID, address(system));
     console.log(address(system));

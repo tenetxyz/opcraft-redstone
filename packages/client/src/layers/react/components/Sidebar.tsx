@@ -88,6 +88,7 @@ export function registerSidebar() {
           {tutorial?.community && <JoinSocial onClose={() => updateTutorial({ community: false })} />}
           {/*{<RegisterVoxelType layers={layers} onClose={() => updateTutorial({ community: false })} />}*/}
           {(voxelSelection?.points ?? []).length >= 2 && <RegisterCreation layers={layers} onClose={() => {console.log("closed")}} />}
+          {(voxelSelection?.points ?? []).length >= 4 && <SubmitAdderTest layers={layers} onClose={() => {console.log("closed")}} />}
           {tutorial?.moving && (
             <Hint onClose={() => updateTutorial({ moving: false })}>
               <Gold>Hint</Gold>: press <Gold>W, A, S, or D</Gold> to move around

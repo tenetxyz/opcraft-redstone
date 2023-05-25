@@ -359,6 +359,34 @@ export async function createNetworkLayer(config: GameConfig) {
       updates: () => [],
     });
   }
+
+  function submitAdderTest(creationId: number, points: number[]) {
+    actions.add({
+      id: `submitAdderTest+${creationId}` as EntityID,
+      metadata: { actionType: "adderTest" },
+      requirement: () => true,
+      components: {},
+      execute: () =>
+        systems["system.AdderTest"].executeTyped(creationId, [points[0]], [points[1]], [points[2]], [points[3]], {
+          gasLimit: 100_000_000,
+        }),
+      updates: () => [],
+    });
+  }
+
+  function submitHalfAdderTest(creationId: number, points: VoxelCoord[]) {
+    actions.add({
+      id: `submitHalfAdderTest+${creationId}` as EntityID,
+      metadata: { actionType: "halfAdderTest" },
+      requirement: () => true,
+      components: {},
+      execute: () =>
+        systems["system.HalfAdderTest"].executeTyped(creationId, points[0], points[1], points[2], points[3], {
+          gasLimit: 100_000_000,
+        }),
+      updates: () => [],
+    });
+  }
   function transfer(entity: EntityID, receiver: string) {
     const entityIndex = world.entityToIndex.get(entity);
     if (entityIndex == null) return console.warn("trying to transfer unknown entity", entity);
@@ -468,6 +496,8 @@ export async function createNetworkLayer(config: GameConfig) {
       registerVoxelType,
       giftVoxel,
       registerCreation,
+      submitAdderTest,
+      submitHalfAdderTest,
       transfer,
       getBlockAtPosition,
       getECSBlockAtPosition,

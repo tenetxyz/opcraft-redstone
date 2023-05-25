@@ -49,10 +49,11 @@ contract AdderTestSystem is System {
       signalComponent.getValue(carryOutVoxelId).isActive == true
     ) {
       passesTestsComponent.addTest(creationId, ID);
-      return abi.encode(true);
+      //   return abi.encode(true); // if the transaction passes, the test passed!
     }
+    require(false, "Addertest failed"); // this is really hacky but by failing the transaction, the user gets immediate feedback in the ui
     // the test failed
-    return abi.encode(false);
+    // return abi.encode(false);
   }
 
   // uint256 in1 = 3;
@@ -72,7 +73,13 @@ contract AdderTestSystem is System {
   // NameComponent nameComponent = NameComponent(getAddressById(components, NameComponentID));
   // nameComponent.set(testId, "a);
 
-  function executeTyped(uint256 entity, string memory name) public returns (bool) {
-    return abi.decode(execute(abi.encode(entity, name)), (bool));
+  function executeTyped(
+    uint256 creationId,
+    uint256[] memory in1VoxelIds,
+    uint256[] memory in2VoxelIds,
+    uint256[] memory outVoxelIds,
+    uint256 carryOutVoxelId
+  ) public returns (bool) {
+    return abi.decode(execute(abi.encode(creationId, in1VoxelIds, in2VoxelIds, outVoxelIds, carryOutVoxelId)), (bool));
   }
 }
