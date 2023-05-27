@@ -42,10 +42,7 @@ export async function createBlockSystem(network: NetworkLayer, context: NoaLayer
     // const item = getComponentValueStrict(Item, update.entity);
     const position = getComponentValue(Position, update.entity);
     if (position !== undefined) {
-      console.log("item update");
       const block = getBlockAtPosition(position);
-      console.log(position);
-      console.log(block);
       setBlock(position, block);
     }
   });
